@@ -1,7 +1,6 @@
 ![Image](/image/banner.png)
 
 # Matisse
-[![Build Status](https://travis-ci.org/zhihu/Matisse.svg)](https://travis-ci.org/zhihu/Matisse)  
 Matisse is a well-designed local image and video selector for Android. You can  
 - Use it in Activity or Fragment
 - Select images including JPEG, PNG, GIF and videos including MPEG, MP4 
@@ -15,33 +14,22 @@ Matisse is a well-designed local image and video selector for Android. You can
 |![](image/screenshot_zhihu.png) | ![](image/screenshot_dracula.png) | ![](image/screenshot_preview.png)|
 
 ## Download
-Gradle:
 
+Step 1. Add it in your root build.gradle at the end of repositories:
+       
 ```groovy
 repositories {
     jcenter()
 }
+```
 
+Step 2. Add the dependency
+
+```groovy
 dependencies {
-    compile 'com.zhihu.android:matisse:0.4.3'
+	   implementation 'com.github.daolq3012:Matisse:1.0'
 }
 ```
-
-Check out [Matisse releases](https://github.com/zhihu/Matisse/releases) to see more unstable versions.
-
-## ProGuard
-If you use [Glide](https://github.com/bumptech/glide) as your image engine, add rules as Glide's README says.  
-And add extra rule:
-```pro
--dontwarn com.squareup.picasso.**
-```
-
-If you use [Picasso](https://github.com/square/picasso) as your image engine, add rules as Picasso's README says.  
-And add extra rule:
-```pro
--dontwarn com.bumptech.glide.**
-```
-**Attention**: The above progurad rules are correct.
 
 ## How do I use Matisse?
 #### Permission
@@ -55,6 +43,8 @@ So if you are targeting Android 6.0+, you need to handle runtime permission requ
 ------
 Start `MatisseActivity` from current `Activity` or `Fragment`:
 
+###### Normal
+
 ```java
 Matisse.from(MainActivity.this)
         .choose(MimeType.allOf())
@@ -66,6 +56,21 @@ Matisse.from(MainActivity.this)
         .thumbnailScale(0.85f)
         .imageEngine(new GlideEngine())
         .forResult(REQUEST_CODE_CHOOSE);
+```
+
+###### Remember selection
+
+```java
+Matisse.from(MainActivity.this)
+        .choose(MimeType.allOf())
+        .countable(true)
+        .maxSelectable(9)
+        .addFilter(new GifSizeFilter(320, 320, 5 * Filter.K * Filter.K))
+        .gridExpectedSize(getResources().getDimensionPixelSize(R.dimen.grid_expected_size))
+        .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+        .thumbnailScale(0.85f)
+        .imageEngine(new GlideEngine())
+        .forResult(REQUEST_CODE_CHOOSE, selectedPaths);
 ```
  
 #### Themes
