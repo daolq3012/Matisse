@@ -141,6 +141,10 @@ public class MatisseActivity extends AppCompatActivity implements
         if (savedInstanceState != null) {
             mOriginalEnable = savedInstanceState.getBoolean(CHECK_STATE);
         }
+        ArrayList<Item> selectedItems = getIntent().getParcelableArrayListExtra(SelectedItemCollection.STATE_SELECTION);
+        if (selectedItems != null && selectedItems.size() > 0) {
+            mSelectedCollection.setDefaultSelection(selectedItems);
+        }
         updateBottomToolbar();
 
         mAlbumsAdapter = new AlbumsAdapter(this, null, false);
@@ -430,5 +434,4 @@ public class MatisseActivity extends AppCompatActivity implements
             mMediaStoreCompat.dispatchCaptureIntent(this, REQUEST_CODE_CAPTURE);
         }
     }
-
 }
